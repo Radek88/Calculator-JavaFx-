@@ -57,7 +57,7 @@ public class Controller {
 
     @FXML
     void initialize() {
-        System.out.println();
+        System.out.println("Git test");
 
 
 
