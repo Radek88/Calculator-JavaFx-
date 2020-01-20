@@ -1,17 +1,27 @@
 package sample;
 
+import java.beans.EventHandler;
+
 public class Engine {
-    public int add(int a, int b){
-        return a+b;
+    double returned;
+    Action action = new Action();
+
+
+    public double add(double first, double second){
+        action.setResult(first + second);
+        return action.getResult();
     }
-    public int minus(int a, int b){
-        return a-b;
+    public void minus(double first, double second){
+        returned = action.getData1() - action.getData2();
+        action.setResult(returned);
     }
-    public int multi(int a, int b){
-        return a*b;
+    public void multi(double first, double second){
+        returned = action.getData1() - action.getData2();
+        action.setResult(returned);
     }
-    public int divide(int a, int b){
-        return a/b;
+    public void divide(double first, double second){
+        returned = action.getData1() - action.getData2();
+        action.setResult(returned);
     }
 
 }

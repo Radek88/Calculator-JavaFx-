@@ -4,14 +4,21 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import javax.swing.*;
+import javax.swing.text.html.parser.Parser;
+
 
 public class Controller {
+    Action action = new Action();
+    Engine engine = new Engine();
+
 
     @FXML
     private Button add;
+
+    @FXML
+    private Button result;
+
 
     @FXML
     private Button minus;
@@ -24,6 +31,7 @@ public class Controller {
 
     @FXML
     private TextField textfield;
+
 
     @FXML
     private Button one;
@@ -57,9 +65,37 @@ public class Controller {
 
     @FXML
     void initialize() {
-        System.out.println("Git test");
+        add.setOnAction(event -> {
+
+            try {
+                action.setData1(Double.parseDouble(textfield.getText()));
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "No value provided");
+            }
+            action.setAction(MathematicAction.ADD);
+            textfield.clear();
+        });
+        result.setOnAction(event -> {
+            try {
+                action.setData2(Double.parseDouble(textfield.getText()));
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "No value provided");
+            }
+            textfield.clear();
+            switch (action.getAction()) {
+                case ADD: {
+                    textfield.setPromptText(Double.toString(engine.add(action.getData1(), action.getData2()))); }
+                case SUBSTRACT:
+                    engine.minus(action.getData1(), action.getData2());
+                case MULTIPLE:
+                    engine.multi(action.getData1(), action.getData2());
+                case DIVIDE:
+                    engine.divide(action.getData1(), action.getData2());
+            }
 
 
+        });
 
     }
 

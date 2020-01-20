@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="364.0" prefWidth="305.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="364.0" prefWidth="305.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
       <Button fx:id="add" layoutX="239.0" layoutY="88.0" mnemonicParsing="false" prefHeight="67.0" prefWidth="66.0" text="+">
          <font>
@@ -26,17 +26,18 @@
          </font>
       </Button>
       <TextField fx:id="textfield" layoutX="8.0" layoutY="8.0" prefHeight="67.0" prefWidth="287.0" />
-      <Button fx:id="one" layoutX="19.0" layoutY="130.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="1" />
-      <Button fx:id="four" layoutX="19.0" layoutY="189.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="4" />
-      <Button fx:id="seven" layoutX="19.0" layoutY="255.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="7" />
-      <Button fx:id="two" layoutX="92.0" layoutY="130.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="2" />
-      <Button fx:id="five" layoutX="92.0" layoutY="189.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="5" />
-      <Button fx:id="eigth" layoutX="92.0" layoutY="255.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="8" />
-      <Button fx:id="three" layoutX="163.0" layoutY="130.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="3" />
-      <Button fx:id="six" layoutX="163.0" layoutY="189.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="6" />
-      <Button fx:id="nine" layoutX="163.0" layoutY="255.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="9" />
-      <Button layoutX="144.0" layoutY="323.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" text="0" />
-      <Button layoutX="19.0" layoutY="323.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="114.0" text="." />
-      <Button fx:id="c" layoutX="19.0" layoutY="88.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="185.0" text="C" />
+      <Button fx:id="one" layoutX="19.0" layoutY="114.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="1" />
+      <Button fx:id="four" layoutX="19.0" layoutY="172.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="4" />
+      <Button fx:id="seven" layoutX="19.0" layoutY="231.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="7" />
+      <Button fx:id="two" layoutX="76.0" layoutY="114.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="2" />
+      <Button fx:id="five" layoutX="76.0" layoutY="172.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="5" />
+      <Button fx:id="eigth" layoutX="76.0" layoutY="231.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="8" />
+      <Button fx:id="three" layoutX="138.0" layoutY="114.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="3" />
+      <Button fx:id="six" layoutX="138.0" layoutY="172.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="6" />
+      <Button fx:id="nine" layoutX="138.0" layoutY="231.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="9" />
+      <Button layoutX="137.0" layoutY="289.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" text="0" />
+      <Button layoutX="17.0" layoutY="289.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="113.0" text="." />
+      <Button fx:id="c" layoutX="19.0" layoutY="82.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="185.0" text="C" />
+      <Button fx:id="result" layoutX="13.0" layoutY="323.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="177.0" text="=" />
    </children>
 </Pane>
