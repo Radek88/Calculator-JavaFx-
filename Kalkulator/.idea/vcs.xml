@@ -6,6 +6,7 @@
     </option>
   </component>
   <component name="VcsDirectoryMappings">
-    <mapping directory="$PROJECT_DIR$/../../../../Git Repozytorium/KalkulatorRepo" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
+    <mapping directory="$USER_HOME$/Git Repozytorium/KalkulatorRepo" vcs="Git" />
   </component>
 </project>
