@@ -1,5 +1,11 @@
 package sample;
 
+import javafx.event.Event;
+import javafx.event.EventTarget;
+import javafx.scene.control.Button;
+
+
+
 public class Action {
     private double data1;
     private double data2;
@@ -38,7 +44,4 @@ public class Action {
     public void setAction(MathematicAction action) {
         this.action = action;
     }
-
-
-
 }

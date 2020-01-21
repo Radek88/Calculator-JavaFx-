@@ -5,12 +5,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 import javax.swing.*;
-import javax.swing.text.html.parser.Parser;
-
 
 public class Controller {
     Action action = new Action();
     Engine engine = new Engine();
+    String s;
 
 
     @FXML
@@ -65,17 +64,36 @@ public class Controller {
 
     @FXML
     void initialize() {
-        add.setOnAction(event -> {
+        add.setOnAction(event -> actionHandler(event));
+        minus.setOnAction(event -> actionHandler(event));
+        multi.setOnAction(event -> actionHandler(event));
+        divide.setOnAction(event -> actionHandler(event));
+        result();
+    }
 
-            try {
-                action.setData1(Double.parseDouble(textfield.getText()));
+    public void actionHandler(javafx.event.ActionEvent event) {
+        try {
 
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "No value provided");
-            }
+            action.setData1(Double.parseDouble(textfield.getText()));
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No value provided");
+        }
+        if (event.getSource().equals(add)) {
             action.setAction(MathematicAction.ADD);
-            textfield.clear();
-        });
+        }
+        else if (event.getSource().equals(minus)) {
+            action.setAction(MathematicAction.SUBSTRACT);
+        }
+        else if (event.getSource().equals(multi)) {
+            action.setAction(MathematicAction.MULTIPLE);
+        }
+        else if (event.getSource().equals(divide)) {
+            action.setAction(MathematicAction.DIVIDE);
+        }
+        textfield.clear();
+    }
+    public void result(){
         result.setOnAction(event -> {
             try {
                 action.setData2(Double.parseDouble(textfield.getText()));
@@ -85,19 +103,19 @@ public class Controller {
             textfield.clear();
             switch (action.getAction()) {
                 case ADD: {
-                    textfield.setPromptText(Double.toString(engine.add(action.getData1(), action.getData2()))); }
-                case SUBSTRACT:
-                    engine.minus(action.getData1(), action.getData2());
-                case MULTIPLE:
-                    engine.multi(action.getData1(), action.getData2());
-                case DIVIDE:
-                    engine.divide(action.getData1(), action.getData2());
+                    textfield.setPromptText(Double.toString(engine.add(action.getData1(), action.getData2()))); }break;
+                case SUBSTRACT:{
+                    textfield.setPromptText(Double.toString(engine.minus(action.getData1(), action.getData2())));}break;
+                case MULTIPLE:{
+                    textfield.setPromptText(Double.toString(engine.multi(action.getData1(), action.getData2())));}break;
+                case DIVIDE:{
+                    textfield.setPromptText(Double.toString(engine.divide(action.getData1(), action.getData2())));}break;
             }
-
-
         });
 
     }
+    public void buttonDeffinition(){
 
+    }
 
 }
