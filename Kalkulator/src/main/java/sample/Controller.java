@@ -1,121 +1,94 @@
 package sample;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import sample.model.*;
 
-import javax.swing.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 
 public class Controller {
-    Action action = new Action();
-    Engine engine = new Engine();
-    String s;
 
-
-    @FXML
-    private Button add;
+    private HashMap<String, MathActionStrategy> mathActionChose = new HashMap<>();
+    private ArrayList<NumberMemory> numbersList = new ArrayList();
 
     @FXML
-    private Button result;
-
-
+    private Button add, result, minus, multi, divide, one, two, three, four, five, six, seven, eigth, nine, zero, c, CE, dot;
     @FXML
-    private Button minus;
-
-    @FXML
-    private Button multi;
-
-    @FXML
-    private Button divide;
-
-    @FXML
-    private TextField textfield;
+    private TextField text;
 
 
-    @FXML
-    private Button one;
-
-    @FXML
-    private Button four;
-
-    @FXML
-    private Button seven;
-
-    @FXML
-    private Button two;
-
-    @FXML
-    private Button five;
-
-    @FXML
-    private Button eigth;
-
-    @FXML
-    private Button three;
-
-    @FXML
-    private Button six;
-
-    @FXML
-    private Button nine;
-
-    @FXML
-    private Button c;
+    public Controller() {
+        mathActionChose.put("add", new Add());
+        mathActionChose.put("min", new Substract());
+        mathActionChose.put("mul", new Multiply());
+        mathActionChose.put("div", new Divide());
+    }
 
     @FXML
     void initialize() {
-        add.setOnAction(event -> actionHandler(event));
-        minus.setOnAction(event -> actionHandler(event));
-        multi.setOnAction(event -> actionHandler(event));
-        divide.setOnAction(event -> actionHandler(event));
-        result();
+
     }
 
-    public void actionHandler(javafx.event.ActionEvent event) {
-        try {
+    @FXML
+    void mathAction(ActionEvent event) {
+        addToNumberList(doubleParser(text.getText()), returnButtonId(event.getSource().toString()));
+        text.clear();
 
-            action.setData1(Double.parseDouble(textfield.getText()));
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "No value provided");
-        }
-        if (event.getSource().equals(add)) {
-            action.setAction(MathematicAction.ADD);
-        }
-        else if (event.getSource().equals(minus)) {
-            action.setAction(MathematicAction.SUBSTRACT);
-        }
-        else if (event.getSource().equals(multi)) {
-            action.setAction(MathematicAction.MULTIPLE);
-        }
-        else if (event.getSource().equals(divide)) {
-            action.setAction(MathematicAction.DIVIDE);
-        }
-        textfield.clear();
     }
-    public void result(){
-        result.setOnAction(event -> {
-            try {
-                action.setData2(Double.parseDouble(textfield.getText()));
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "No value provided");
+
+    private void addToNumberList(double number, String mathematicAction) {
+        numbersList.add(new NumberMemory(number, mathematicAction));
+    }
+
+    @FXML
+    void numButtons() {
+
+        one.setOnAction(event -> text.setText(text.getText() + "1"));
+        two.setOnAction(event -> text.setText(text.getText() + "2"));
+        three.setOnAction(event -> text.setText(text.getText() + "3"));
+        four.setOnAction(event -> text.setText(text.getText() + "4"));
+        five.setOnAction(event -> text.setText(text.getText() + "5"));
+        six.setOnAction(event -> text.setText(text.getText() + "6"));
+        seven.setOnAction(event -> text.setText(text.getText() + "7"));
+        eigth.setOnAction(event -> text.setText(text.getText() + "8"));
+        nine.setOnAction(event -> text.setText(text.getText() + "9"));
+        zero.setOnAction(event -> text.setText(text.getText() + "0"));
+        dot.setOnAction(event -> text.setText(text.getText() + "."));
+
+    }
+
+    @FXML
+    void clear() {
+    }
+
+    @FXML
+    void resultMethod(ActionEvent event) {
+        addToNumberList(doubleParser(text.getText()), returnButtonId(event.getSource().toString()));
+        double resultDouble = numbersList.get(0).getNumberValue();
+        for (int i = 0; i < numbersList.size(); i++) {
+            if (numbersList.get(i).getAction().equals("res")) {
+                break;
             }
-            textfield.clear();
-            switch (action.getAction()) {
-                case ADD: {
-                    textfield.setPromptText(Double.toString(engine.add(action.getData1(), action.getData2()))); }break;
-                case SUBSTRACT:{
-                    textfield.setPromptText(Double.toString(engine.minus(action.getData1(), action.getData2())));}break;
-                case MULTIPLE:{
-                    textfield.setPromptText(Double.toString(engine.multi(action.getData1(), action.getData2())));}break;
-                case DIVIDE:{
-                    textfield.setPromptText(Double.toString(engine.divide(action.getData1(), action.getData2())));}break;
-            }
-        });
 
-    }
-    public void buttonDeffinition(){
+            resultDouble = mathActionChose.get(numbersList.get(i).getAction()).calculate(resultDouble, numbersList.get(i + 1).getNumberValue());
+        }
 
+
+        text.setText(String.valueOf(resultDouble));
     }
+
+    double doubleParser(String stringForParseToDouble) {
+        return Double.parseDouble(stringForParseToDouble);
+    }
+
+    String returnButtonId(String buttonGetSource) {
+        String newString = buttonGetSource.substring(10, 13);
+        return newString;
+    }
+
 
 }
