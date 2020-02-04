@@ -1,19 +1,24 @@
 package sample;
 
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import sample.model.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 
 public class Controller {
 
     private HashMap<String, MathActionStrategy> mathActionChose = new HashMap<>();
     private ArrayList<NumberMemory> numbersList = new ArrayList();
+    private Map<KeyCode, String> numpadKeysMap = new HashMap<>();
 
     @FXML
     private Button add, result, minus, multi, divide, one, two, three, four, five, six, seven, eigth, nine, zero, c, CE, dot;
@@ -26,6 +31,18 @@ public class Controller {
         mathActionChose.put("min", new Substract());
         mathActionChose.put("mul", new Multiply());
         mathActionChose.put("div", new Divide());
+
+        numpadKeysMap.put(KeyCode.NUMPAD0, "0");
+        numpadKeysMap.put(KeyCode.NUMPAD1, "1");
+        numpadKeysMap.put(KeyCode.NUMPAD2, "2");
+        numpadKeysMap.put(KeyCode.NUMPAD3, "3");
+        numpadKeysMap.put(KeyCode.NUMPAD4, "4");
+        numpadKeysMap.put(KeyCode.NUMPAD5, "5");
+        numpadKeysMap.put(KeyCode.NUMPAD6, "6");
+        numpadKeysMap.put(KeyCode.NUMPAD7, "7");
+        numpadKeysMap.put(KeyCode.NUMPAD8, "8");
+        numpadKeysMap.put(KeyCode.NUMPAD9, "9");
+
     }
 
     @FXML
@@ -34,14 +51,22 @@ public class Controller {
     }
 
     @FXML
-    void mathAction(ActionEvent event) {
-        addToNumberList(doubleParser(text.getText()), returnButtonId(event.getSource().toString()));
+    private void mathAction(ActionEvent event) {
+        listInitializerMethod(doubleParser(text.getText()), returnButtonId(event.getSource().toString()));
         text.clear();
 
     }
 
-    private void addToNumberList(double number, String mathematicAction) {
+    @FXML
+    private void mathAction(String action) {
+        listInitializerMethod(doubleParser(text.getText()), action);
+        text.clear();
+
+    }
+
+    private void listInitializerMethod(double number, String mathematicAction) {
         numbersList.add(new NumberMemory(number, mathematicAction));
+
     }
 
     @FXML
@@ -67,7 +92,7 @@ public class Controller {
 
     @FXML
     void resultMethod(ActionEvent event) {
-        addToNumberList(doubleParser(text.getText()), returnButtonId(event.getSource().toString()));
+        listInitializerMethod(doubleParser(text.getText()), returnButtonId(event.getSource().toString()));
         double resultDouble = numbersList.get(0).getNumberValue();
         for (int i = 0; i < numbersList.size(); i++) {
             if (numbersList.get(i).getAction().equals("res")) {
@@ -81,6 +106,23 @@ public class Controller {
         text.setText(String.valueOf(resultDouble));
     }
 
+    @FXML
+    void resultMethod(String result) {
+        listInitializerMethod(doubleParser(text.getText()), result);
+        double resultDouble = numbersList.get(0).getNumberValue();
+        for (int i = 0; i < numbersList.size(); i++) {
+            if (numbersList.get(i).getAction().equals("res")) {
+                break;
+            }
+
+            resultDouble = mathActionChose.get(numbersList.get(i).getAction()).calculate(resultDouble, numbersList.get(i + 1).getNumberValue());
+        }
+
+
+        text.setText(String.valueOf(resultDouble));
+    }
+
+
     double doubleParser(String stringForParseToDouble) {
         return Double.parseDouble(stringForParseToDouble);
     }
@@ -88,6 +130,31 @@ public class Controller {
     String returnButtonId(String buttonGetSource) {
         String newString = buttonGetSource.substring(10, 13);
         return newString;
+    }
+
+
+    @FXML
+    void keyPressed(KeyEvent event) {
+        if (event.getCode().isDigitKey()) {
+            text.setText(text.getText() + event.getText());
+        }
+        if (event.getCode() == KeyCode.ADD) {
+            mathAction("add");
+        }
+        if (event.getCode() == KeyCode.MINUS) {
+            mathAction("min");
+        }
+        if (event.getCode() == KeyCode.MULTIPLY) {
+            mathAction("mul");
+        }
+        if (event.getCode() == KeyCode.DIVIDE) {
+            mathAction("div");
+        }
+        if (event.getCode() == KeyCode.ENTER) {
+            resultMethod("res");
+        }
+
+
     }
 
 
