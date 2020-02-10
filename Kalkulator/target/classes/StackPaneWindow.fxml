@@ -7,20 +7,20 @@
 
 <Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#keyPressed" prefHeight="335.0" prefWidth="321.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <Button fx:id="add" layoutX="239.0" layoutY="106.0" mnemonicParsing="false" onAction="#mathAction" prefHeight="50.0" prefWidth="76.0" text="+">
+      <Button fx:id="add" layoutX="239.0" layoutY="106.0" mnemonicParsing="false" onAction="#listnerForVirtualMathematicActionButtons" prefHeight="50.0" prefWidth="76.0" text="+">
          <font>
             <Font size="24.0" />
          </font></Button>
-      <Button fx:id="minus" layoutX="239.0" layoutY="164.0" mnemonicParsing="false" onAction="#mathAction" prefHeight="50.0" prefWidth="76.0" text="-">
+      <Button fx:id="minus" layoutX="239.0" layoutY="164.0" mnemonicParsing="false" onAction="#listnerForVirtualMathematicActionButtons" prefHeight="50.0" prefWidth="76.0" text="-">
          <font>
             <Font size="24.0" />
          </font></Button>
-      <Button fx:id="multi" layoutX="239.0" layoutY="222.0" mnemonicParsing="false" onAction="#mathAction" prefHeight="50.0" prefWidth="76.0" text="*">
+      <Button fx:id="multi" layoutX="239.0" layoutY="222.0" mnemonicParsing="false" onAction="#listnerForVirtualMathematicActionButtons" prefHeight="50.0" prefWidth="76.0" text="*">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Button fx:id="divide" layoutX="239.0" layoutY="277.0" mnemonicParsing="false" onAction="#mathAction" prefHeight="50.0" prefWidth="76.0" text="/">
+      <Button fx:id="divide" layoutX="239.0" layoutY="277.0" mnemonicParsing="false" onAction="#listnerForVirtualMathematicActionButtons" prefHeight="50.0" prefWidth="76.0" text="/">
          <font>
             <Font size="24.0" />
          </font>

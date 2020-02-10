@@ -11,37 +11,25 @@ import sample.model.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 
 public class Controller {
 
-    private HashMap<String, MathActionStrategy> mathActionChose = new HashMap<>();
-    private ArrayList<NumberMemory> numbersList = new ArrayList();
-    private Map<KeyCode, String> numpadKeysMap = new HashMap<>();
+    private final HashMap<String, MathActionStrategy> mathematicStrategy = new HashMap<>();
+    private final ArrayList<NumberMemory> numberAndMathActionObjectsMap = new ArrayList<>();
+
 
     @FXML
-    private Button add, result, minus, multi, divide, one, two, three, four, five, six, seven, eigth, nine, zero, c, CE, dot;
+    private Button one, two, three, four, five, six, seven, eigth, nine, zero, c, CE, dot;
     @FXML
     private TextField text;
 
 
     public Controller() {
-        mathActionChose.put("add", new Add());
-        mathActionChose.put("min", new Substract());
-        mathActionChose.put("mul", new Multiply());
-        mathActionChose.put("div", new Divide());
-
-        numpadKeysMap.put(KeyCode.NUMPAD0, "0");
-        numpadKeysMap.put(KeyCode.NUMPAD1, "1");
-        numpadKeysMap.put(KeyCode.NUMPAD2, "2");
-        numpadKeysMap.put(KeyCode.NUMPAD3, "3");
-        numpadKeysMap.put(KeyCode.NUMPAD4, "4");
-        numpadKeysMap.put(KeyCode.NUMPAD5, "5");
-        numpadKeysMap.put(KeyCode.NUMPAD6, "6");
-        numpadKeysMap.put(KeyCode.NUMPAD7, "7");
-        numpadKeysMap.put(KeyCode.NUMPAD8, "8");
-        numpadKeysMap.put(KeyCode.NUMPAD9, "9");
+        mathematicStrategy.put("add", new Add());
+        mathematicStrategy.put("min", new Substract());
+        mathematicStrategy.put("mul", new Multiply());
+        mathematicStrategy.put("div", new Divide());
 
     }
 
@@ -51,21 +39,28 @@ public class Controller {
     }
 
     @FXML
-    private void mathAction(ActionEvent event) {
-        listInitializerMethod(doubleParser(text.getText()), returnButtonId(event.getSource().toString()));
+    private void listnerForVirtualMathematicActionButtons(ActionEvent event) {
+        if (text.getText().isEmpty()){
+            return;
+        }
+        createListWithNumbersAndMathAction(doubleParser(text.getText()), returnButtonId(event.getSource().toString()));
         text.clear();
 
     }
 
     @FXML
-    private void mathAction(String action) {
-        listInitializerMethod(doubleParser(text.getText()), action);
+    private void listnerForVirtualMathematicActionButtons(String action) {
+        if (text.getText().isEmpty()){
+            return;
+        }
+        createListWithNumbersAndMathAction(doubleParser(text.getText()), action);
         text.clear();
 
     }
 
-    private void listInitializerMethod(double number, String mathematicAction) {
-        numbersList.add(new NumberMemory(number, mathematicAction));
+    private void createListWithNumbersAndMathAction(double number, String mathematicAction) {
+
+        numberAndMathActionObjectsMap.add(new NumberMemory(number, mathematicAction));
 
     }
 
@@ -88,48 +83,53 @@ public class Controller {
 
     @FXML
     void clear() {
+        text.clear();
+        numberAndMathActionObjectsMap.clear();
     }
 
     @FXML
     void resultMethod(ActionEvent event) {
-        listInitializerMethod(doubleParser(text.getText()), returnButtonId(event.getSource().toString()));
-        double resultDouble = numbersList.get(0).getNumberValue();
-        for (int i = 0; i < numbersList.size(); i++) {
-            if (numbersList.get(i).getAction().equals("res")) {
+
+        createListWithNumbersAndMathAction(doubleParser(text.getText()), returnButtonId(event.getSource().toString()));
+        double resultDouble = numberAndMathActionObjectsMap.get(0).getNumberValue();
+        for (int i = 0; i < numberAndMathActionObjectsMap.size(); i++) {
+            if (numberAndMathActionObjectsMap.get(i).getAction().equals("res")) {
                 break;
             }
+            resultDouble = mathematicStrategy.get(numberAndMathActionObjectsMap.get(i).getAction()).calculate(resultDouble, numberAndMathActionObjectsMap.get(i + 1).getNumberValue());
 
-            resultDouble = mathActionChose.get(numbersList.get(i).getAction()).calculate(resultDouble, numbersList.get(i + 1).getNumberValue());
         }
-
-
         text.setText(String.valueOf(resultDouble));
+
+        numberAndMathActionObjectsMap.clear();
+
     }
 
     @FXML
-    void resultMethod(String result) {
-        listInitializerMethod(doubleParser(text.getText()), result);
-        double resultDouble = numbersList.get(0).getNumberValue();
-        for (int i = 0; i < numbersList.size(); i++) {
-            if (numbersList.get(i).getAction().equals("res")) {
+    private void resultMethod(String result) {
+        createListWithNumbersAndMathAction(doubleParser(text.getText()), result);
+        double resultDouble = numberAndMathActionObjectsMap.get(0).getNumberValue();
+        for (int i = 0; i < numberAndMathActionObjectsMap.size(); i++) {
+            if (numberAndMathActionObjectsMap.get(i).getAction().equals("res")) {
                 break;
             }
 
-            resultDouble = mathActionChose.get(numbersList.get(i).getAction()).calculate(resultDouble, numbersList.get(i + 1).getNumberValue());
+            resultDouble = mathematicStrategy.get(numberAndMathActionObjectsMap.get(i).getAction()).calculate(resultDouble, numberAndMathActionObjectsMap.get(i + 1).getNumberValue());
+
         }
 
 
         text.setText(String.valueOf(resultDouble));
+        numberAndMathActionObjectsMap.clear();
     }
 
 
-    double doubleParser(String stringForParseToDouble) {
+    private double doubleParser(String stringForParseToDouble) {
         return Double.parseDouble(stringForParseToDouble);
     }
 
-    String returnButtonId(String buttonGetSource) {
-        String newString = buttonGetSource.substring(10, 13);
-        return newString;
+    private String returnButtonId(String buttonGetSource) {
+        return buttonGetSource.substring(10, 13);
     }
 
 
@@ -139,20 +139,27 @@ public class Controller {
             text.setText(text.getText() + event.getText());
         }
         if (event.getCode() == KeyCode.ADD) {
-            mathAction("add");
+            listnerForVirtualMathematicActionButtons("add");
         }
         if (event.getCode() == KeyCode.MINUS) {
-            mathAction("min");
+            listnerForVirtualMathematicActionButtons("min");
         }
         if (event.getCode() == KeyCode.MULTIPLY) {
-            mathAction("mul");
+            listnerForVirtualMathematicActionButtons("mul");
         }
         if (event.getCode() == KeyCode.DIVIDE) {
-            mathAction("div");
+            listnerForVirtualMathematicActionButtons("div");
+        }
+        if (event.getCode() == KeyCode.DELETE) {
+            clear();
         }
         if (event.getCode() == KeyCode.ENTER) {
             resultMethod("res");
         }
+        if (event.getCode() == KeyCode.DECIMAL) {
+            text.setText(text.getText() + ".");
+        }
+
 
 
     }
